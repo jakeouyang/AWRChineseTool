@@ -125,7 +125,7 @@ public static class FontService
         var xml = Xml(xmlPath);
         if (reference)
         {
-            report("文本基底：intergra 简体译文（不再自动改写）。来源：https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese");
+            report("文本来源：intergra 简体译文。来源：https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese");
         }
         else if (simplified && mergeCht)
         {
