@@ -21,6 +21,20 @@ public static class FontService
     public static string OverridesFor(bool simplified) => simplified ? OverridesCsv : Path.Combine(TextDir, "overrides-traditional.tsv");
     public static string ExportedCsv => Path.Combine(TextDir, "strings.tsv");
     public static string IntergraDir => Path.Combine(WorkspaceDir, "intergra");
+
+    static FontService()
+    {
+        string readme = Path.Combine(IntergraDir, "README.txt");
+        if (!File.Exists(readme))
+        {
+            Directory.CreateDirectory(IntergraDir);
+            File.WriteAllText(readme,
+                "将 intergra 简体中文 MOD 的以下 3 个文件复制到本目录即可启用人工翻译基底：\n\n" +
+                "  ep999-000-en.bin\n  ep999-000-en.rmdp\n  config\\en_additional_strings.xml\n\n" +
+                "来源：https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese\n\n" +
+                "放入后点击「生成并安装」，工具自动优先使用人工翻译文本。\n不放置则使用 OpenCC 自动转换（无需操作）。\n");
+        }
+    }
     public static string DataDir(string game) => Path.Combine(game, "data");
     static string Key(string game) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(Path.GetFullPath(game).TrimEnd('\\').ToUpperInvariant())))[..16];
     static string Backup(string game) => Path.Combine(BackupDir, Key(game));
