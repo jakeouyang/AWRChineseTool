@@ -28,17 +28,20 @@ jobs:
           if ($env:GITHUB_REF_NAME -like 'v*') { $args += "/p:Version=$($env:GITHUB_REF_NAME.Substring(1))" }
           dotnet @args
 
-      - name: Smoke test (validate-game with a fake game dir)
+      - name: Package (exe + Data)
         shell: pwsh
         run: |
-          $ErrorActionPreference = 'Continue'
-          $exe = Join-Path $env:GITHUB_WORKSPACE "publish/AWRChineseTool.exe"
-          if (-not (Test-Path $exe)) { throw "exe not found: $exe" }
-          Write-Host "exe size: $((Get-Item $exe).Length)"
-          Write-Host "Smoke test passed."
+          $stage = "release-pkg"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item "publish/AWRChineseTool.exe" "$stage/"
+          Copy-Item "src/AWR.Tools/Data" "$stage/Data" -Recurse -Force
+          Compress-Archive -Path "$stage/*" -DestinationPath "AWRChineseTool.zip" -Force
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
+        with:
+          name: AWRChineseTool
+          path: AWRChineseTool.zip
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -49,9 +52,11 @@ jobs:
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
+        with:
+          name: AWRChineseTool
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: "**/AWRChineseTool.exe"
+          files: AWRChineseTool.zip
           generate_release_notes: true
