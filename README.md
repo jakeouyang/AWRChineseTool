@@ -7,7 +7,9 @@
 [![Release](https://img.shields.io/badge/Download-latest-red)](../../releases)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
-<img src="docs/app.png" alt="软件截图" width="720">
+<img src="docs/app.png" alt="软件主界面" width="720">
+
+<img src="docs/app_edit.png" alt="文本工作台" width="720">
 
 </div>
 
