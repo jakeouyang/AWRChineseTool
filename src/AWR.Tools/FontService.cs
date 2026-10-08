@@ -138,7 +138,7 @@ public static class FontService
         var xml = Xml(xmlPath);
         if (reference)
         {
-            report("文本来源：basemod 简体译文。来源：https://github.com/basemod/AlanWakeRemastered_Simplified_Chinese");
+            report("文本来源：basemod 简体译文基座。");
         }
         else if (simplified && mergeCht)
         {
