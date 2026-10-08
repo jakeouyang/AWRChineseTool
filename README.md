@@ -2,7 +2,7 @@
 
 # AWRChineseTool
 
-### 《心灵杀手：重制版》简体中文 + 楷体字体替换工具
+### 《Alan Wake Remastered》简体中文、繁体字体替换和文本编辑工具
 
 [![Release](https://img.shields.io/badge/Download-latest-red)](../../releases)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
