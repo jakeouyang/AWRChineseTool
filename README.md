@@ -51,7 +51,7 @@
 
 ## 高级功能：basemod 翻译仓库支持
 
-[basemod（任意简体基座 MOD）](https://github.com/basemod（任意简体基座 MOD）) 提供了人工校对的完整简体中文翻译。
+[intergra/AlanWakeRemastered_Simplified_Chinese](https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese) 提供了人工校对的完整简体中文翻译。
 
 将其中 `data\` 文件夹的以下 3 个文件放入 `Workspace\basemod\`：
 
@@ -81,7 +81,7 @@ AWRChineseTool validate-game <game>
 
 ## 致谢
 
-- [basemod（任意简体基座 MOD）](https://github.com/basemod（任意简体基座 MOD）)：高级可选翻译基底
+- [intergra/AlanWakeRemastered_Simplified_Chinese](https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese)：高级可选翻译基底
 - OpenCC 词典：[BYVoid/OpenCC](https://github.com/BYVoid/OpenCC)（Apache-2.0）
 - 字体格式研究：[OpenAWE-Project/OpenAWE](https://github.com/OpenAWE-Project/OpenAWE)（GPL-3.0）
 
