@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>0.4.0</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>AWRChineseTool</AssemblyName>
+    <ApplicationIcon>Resources\\app.ico</ApplicationIcon>
+    <RootNamespace>AWR.Tools</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Data\**\*.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="Resources\app.ico" />
+    <EmbeddedResource Include="Resources\icon48.png" />
+  </ItemGroup>
+</Project>

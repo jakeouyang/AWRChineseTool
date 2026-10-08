@@ -1,0 +1,17 @@
+## .NET build output
+bin/
+obj/
+publish/
+
+## User workspace (backups, text exports, settings)
+Workspace/
+
+## VS / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+## OS
+Thumbs.db
+Desktop.ini
