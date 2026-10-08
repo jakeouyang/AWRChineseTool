@@ -19,7 +19,7 @@
 
 ### 简体文本
 
-基于 intergra 简体译文基底 + OpenCC 词典链润色。覆盖游戏全部 6000+ 条文本（菜单、任务、手稿、字幕、成就等）。字符映射表逐字形精确重排，非简单像素覆盖。
+基于官方繁体文本 + OpenCC 词典链自动转换（台港用语→大陆用语）。覆盖游戏全部 6000+ 条文本（菜单、任务、手稿、字幕、成就等）。
 
 ### 文本工作台
 
@@ -49,6 +49,20 @@
 
 点击「还原」按钮将备份文件复制回游戏目录；或通过 Epic「验证」恢复。
 
+## 高级功能：intergra 翻译仓库支持
+
+[intergra/AlanWakeRemastered_Simplified_Chinese](https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese) 提供了人工校对的完整简体中文翻译。
+
+将其中 `data\` 文件夹的以下 3 个文件放入 `Workspace\intergra\`：
+
+```text
+ep999-000-en.bin
+ep999-000-en.rmdp
+config\en_additional_strings.xml
+```
+
+工具自动检测并优先使用人工翻译文本（覆盖 OpenCC 机翻）。不放置则使用自动转换，互不影响。
+
 ## 命令行
 
 ```text
@@ -67,7 +81,7 @@ AWRChineseTool validate-game <game>
 
 ## 致谢
 
-- 简体中文文本基底：[intergra/AlanWakeRemastered_Simplified_Chinese](https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese)
+- [intergra/AlanWakeRemastered_Simplified_Chinese](https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese)：高级可选翻译基底
 - OpenCC 词典：[BYVoid/OpenCC](https://github.com/BYVoid/OpenCC)（Apache-2.0）
 - 字体格式研究：[OpenAWE-Project/OpenAWE](https://github.com/OpenAWE-Project/OpenAWE)（GPL-3.0）
 
