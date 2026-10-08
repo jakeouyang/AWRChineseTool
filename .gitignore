@@ -6,8 +6,6 @@ publish/
 ## User workspace (backups, text exports, settings)
 Workspace/
 
-## Investigation / research notes
-investigation/
 
 ## VS / Rider
 .vs/

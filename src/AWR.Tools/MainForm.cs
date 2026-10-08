@@ -108,7 +108,7 @@ public sealed class MainForm : Form
         panel.Controls.Add(log); layout.Controls.Add(panel, 0, 8);
         var footer = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, Margin = Padding.Empty };
         footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100)); footer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120));
-        footer.Controls.Add(status); footer.Controls.Add(new Label { Text = "v0.4", Dock = DockStyle.Fill, ForeColor = Color.Gray, TextAlign = ContentAlignment.MiddleRight, Font = new Font("Segoe UI", 9) }); layout.Controls.Add(footer, 0, 9);
+        footer.Controls.Add(status); footer.Controls.Add(new Label { Text = "v" + (Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "dev"), Dock = DockStyle.Fill, ForeColor = Color.Gray, TextAlign = ContentAlignment.MiddleRight, Font = new Font("Segoe UI", 9) }); layout.Controls.Add(footer, 0, 9);
 
         busyControls.AddRange(new Control[] { game, font });
         LoadSettings();
