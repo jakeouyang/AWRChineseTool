@@ -31,13 +31,13 @@ internal static class Program
                     FontService.ImportText(file, Console.WriteLine); break;
                 case ["font-preview", var fontFile, var output]:
                     new BinfntFile(File.ReadAllBytes(fontFile)).Preview("继续游戏 新游戏 章节 选项 附加内容 退出\n亮瀑镇 简体字体测试 ABC abc 0123456789", output); break;
-                case ["install-intergra", var game]:
-                    FontService.InstallIntergraBase(game, Console.WriteLine);
+                case ["install-basemod", var game]:
+                    FontService.InstallBaseMod(game, Console.WriteLine);
                     break;
                 case ["install", var game, .. var options]:
-                    if (options.Contains("--intergra"))
+                    if (options.Contains("--basemod"))
                     {
-                        FontService.InstallIntergraBase(game, Console.WriteLine);
+                        FontService.InstallBaseMod(game, Console.WriteLine);
                     }
                     else
                     {

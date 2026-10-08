@@ -20,18 +20,17 @@ public static class FontService
     public static string OverridesCsv => Path.Combine(TextDir, "overrides.csv");
     public static string OverridesFor(bool simplified) => simplified ? OverridesCsv : Path.Combine(TextDir, "overrides-traditional.tsv");
     public static string ExportedCsv => Path.Combine(TextDir, "strings.tsv");
-    public static string IntergraDir => Path.Combine(WorkspaceDir, "intergra");
+    public static string BaseModDir => Path.Combine(WorkspaceDir, "basemod");
 
     static FontService()
     {
-        string readme = Path.Combine(IntergraDir, "README.txt");
+        string readme = Path.Combine(BaseModDir, "README.txt");
         if (!File.Exists(readme))
         {
-            Directory.CreateDirectory(IntergraDir);
+            Directory.CreateDirectory(BaseModDir);
             File.WriteAllText(readme,
-                "将 intergra 简体中文 MOD 的以下 3 个文件复制到本目录即可启用人工翻译基底：\n\n" +
+                "将任意简体中文 MOD 的以下 3 个文件复制到本目录即可启用人工翻译基底：\n\n" +
                 "  ep999-000-en.bin\n  ep999-000-en.rmdp\n  config\\en_additional_strings.xml\n\n" +
-                "来源：https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese\n\n" +
                 "放入后点击「生成并安装」，工具自动优先使用人工翻译文本。\n不放置则使用 OpenCC 自动转换（无需操作）。\n");
         }
     }
@@ -39,8 +38,8 @@ public static class FontService
     static string Key(string game) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(Path.GetFullPath(game).TrimEnd('\\').ToUpperInvariant())))[..16];
     static string Backup(string game) => Path.Combine(BackupDir, Key(game));
     static string BaseFile(string game, string relative) => File.Exists(Path.Combine(Backup(game), relative)) ? Path.Combine(Backup(game), relative) : Path.Combine(game, relative);
-    static string RefData => Directory.Exists(Path.Combine(IntergraDir, "data")) ? Path.Combine(IntergraDir, "data") : IntergraDir;
-    public static string ValidateIntergraBase() => File.Exists(Path.Combine(RefData, EnBin)) && File.Exists(Path.Combine(RefData, EnRmdp)) ? "" : "请将参考 MOD 完整解压到 Workspace\\intergra（保留 data、licenses）。";
+    static string RefData => Directory.Exists(Path.Combine(BaseModDir, "data")) ? Path.Combine(BaseModDir, "data") : BaseModDir;
+    public static string ValidateBaseMod() => File.Exists(Path.Combine(RefData, EnBin)) && File.Exists(Path.Combine(RefData, EnRmdp)) ? "" : "请将简体基座 MOD 完整解压到 Workspace\\basemod（保留 data、licenses）。";
     public static string ValidateGame(string game) => Validate(game, "cht");
     public static string ValidateGameEn(string game) => Validate(game, "en");
     static string Validate(string game, string slot) => new[] { ".bin", ".rmdp" }.All(ext => File.Exists(Path.Combine(DataDir(game), $"ep999-000-{slot}{ext}"))) ? "" : $"游戏目录缺少 {slot} 语言资源包。";
@@ -129,7 +128,7 @@ public static class FontService
     {
         string slot = simplified ? "en" : "cht";
         string error = Validate(game, slot); if (error.Length > 0) throw new InvalidDataException(error);
-        bool reference = simplified && ValidateIntergraBase().Length == 0;
+        bool reference = simplified && ValidateBaseMod().Length == 0;
         string bin = reference ? Path.Combine(RefData, EnBin) : BaseFile(game, $@"data\ep999-000-{slot}.bin");
         string rmdp = reference ? Path.Combine(RefData, EnRmdp) : BaseFile(game, $@"data\ep999-000-{slot}.rmdp");
         var arc = RmdpArchive.Load(bin);
@@ -139,7 +138,7 @@ public static class FontService
         var xml = Xml(xmlPath);
         if (reference)
         {
-            report("文本来源：intergra 简体译文。来源：https://github.com/intergra/AlanWakeRemastered_Simplified_Chinese");
+            report("文本来源：basemod 简体译文。来源：https://github.com/basemod/AlanWakeRemastered_Simplified_Chinese");
         }
         else if (simplified && mergeCht)
         {
@@ -154,8 +153,8 @@ public static class FontService
         return new(arc, rmdp, slot, strings, xml);
     }
     public static void Install(string game, string? font, bool simplified, Action<string> report) => InstallEn(game, font, simplified, report);
-    public static void InstallIntergraBase(string game, Action<string> report)
-    { if (ValidateIntergraBase() is { Length: > 0 } error) throw new InvalidDataException(error); InstallEn(game, null, true, report); }
+    public static void InstallBaseMod(string game, Action<string> report)
+    { if (ValidateBaseMod() is { Length: > 0 } error) throw new InvalidDataException(error); InstallEn(game, null, true, report); }
     public static void InstallEn(string game, string? fontPath, bool simplified, Action<string> report, bool mergeCht = true, bool highQuality = true)
     {
         CheckIdle(game);

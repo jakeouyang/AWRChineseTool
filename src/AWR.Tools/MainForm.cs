@@ -193,8 +193,8 @@ public sealed class MainForm : Form
         simplified.Text = T("简体中文（English 槽位）", "簡體中文（English 槽位）");
         replaceFont.Text = T("替换游戏字体（需选字体文件）", "替換遊戲字體（需選字體檔案）");
         guidance.Text = T(
-            "导出文本 → 编辑 TSV → 导入文本 → 生成并安装。简体基底放入 Workspace\\intergra；备份按游戏目录保存在 Workspace\\backup-v3。",
-            "匯出文本 → 編輯 TSV → 匯入文本 → 生成並安裝。簡體基底放入 Workspace\\intergra；備份按遊戲目錄保存在 Workspace\\backup-v3。");
+            "导出文本 → 编辑 TSV → 导入文本 → 生成并安装。简体基底放入 Workspace\\basemod；备份按游戏目录保存在 Workspace\\backup-v3。",
+            "匯出文本 → 編輯 TSV → 匯入文本 → 生成並安裝。簡體基底放入 Workspace\\basemod；備份按遊戲目錄保存在 Workspace\\backup-v3。");
         install.Text = T("生成并安装", "生成並安裝"); restore.Text = T("还原", "還原");
         exportText.Text = T("导出文本", "匯出文本"); importText.Text = T("导入文本", "匯入文本"); editText.Text = T("文本工作台", "文字工作台");
         foreach (var row in new[] { game.Parent, font.Parent })
