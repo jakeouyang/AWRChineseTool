@@ -1,27 +1,57 @@
-name: Build
+name: CI
 
 on:
   push:
-    tags: ['v*']
-
-permissions:
-  contents: write
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v4
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
 
-      - name: Publish
-        run: dotnet publish src/AWR.Tools -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+      - name: Publish single file
+        shell: pwsh
+        run: |
+          $args = @('publish', 'src/AWR.Tools', '-c', 'Release', '-r', 'win-x64', '--self-contained', 'true', '-p:PublishSingleFile=true', '-p:IncludeNativeLibrariesForSelfExtract=true', '-o', 'publish')
+          if ($env:GITHUB_REF_NAME -like 'v*') { $args += "/p:Version=$($env:GITHUB_REF_NAME.Substring(1))" }
+          dotnet @args
+
+      - name: Smoke test (validate-game with a fake game dir)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $exe = Join-Path $env:GITHUB_WORKSPACE "publish/AWRChineseTool.exe"
+          if (-not (Test-Path $exe)) { throw "exe not found: $exe" }
+          Write-Host "exe size: $((Get-Item $exe).Length)"
+          Write-Host "Smoke test passed."
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: publish/AWRChineseTool.exe
+          files: "**/AWRChineseTool.exe"
           generate_release_notes: true
